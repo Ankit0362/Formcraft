@@ -1,0 +1,1 @@
+ALTER TABLE "workspaces" ADD COLUMN "custom_domain" varchar(255);

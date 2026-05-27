@@ -8,6 +8,48 @@
       "when": 1767592965691,
       "tag": "0000_dusty_morg",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779605638667,
+      "tag": "0001_handy_dorian_gray",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779610246167,
+      "tag": "0002_white_red_skull",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1779611091991,
+      "tag": "0003_smiling_hex",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1779859606174,
+      "tag": "0004_opposite_captain_britain",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1779864939320,
+      "tag": "0005_old_enchantress",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1779888162469,
+      "tag": "0006_boring_frank_castle",
+      "breakpoints": true
     }
   ]
 }

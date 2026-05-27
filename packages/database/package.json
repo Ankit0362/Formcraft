@@ -4,7 +4,8 @@
   "scripts": {
     "db:migrate": "dotenv -- drizzle-kit migrate",
     "db:generate": "dotenv -- drizzle-kit generate",
-    "dev": "dotenv -- drizzle-kit studio"
+    "seed": "dotenv -- tsx seed.ts",
+    "setup-admin": "dotenv -- tsx setup-admin.ts"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

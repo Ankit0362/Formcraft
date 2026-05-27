@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "dotenv -- tsx watch ./src/index.ts",
+    "dev": "dotenv -e ../../.env -- tsx watch ./src/index.ts",
     "build": "tsup",
     "lint": "eslint src/*"
   },
@@ -21,12 +21,16 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@repo/trpc": "workspace:*",
+    "@repo/database": "workspace:*",
     "@repo/logger": "workspace:*",
+    "@repo/trpc": "workspace:*",
     "@scalar/express-api-reference": "^0.8.30",
     "@trpc/server": "^11.8.1",
     "cors": "^2.8.5",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "helmet": "^8.2.0",
+    "razorpay": "^2.9.6",
     "trpc-to-openapi": "^3.1.0",
     "zod": "^4.3.5"
   }

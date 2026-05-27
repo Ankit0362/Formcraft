@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /forms/*/edit
+Disallow: /forms/*/analytics
+Disallow: /api/
+
+Sitemap: https://formcraft.app/sitemap.xml

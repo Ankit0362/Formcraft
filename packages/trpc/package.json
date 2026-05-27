@@ -9,9 +9,16 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1054.0",
+    "@aws-sdk/s3-request-presigner": "^3.1054.0",
+    "@repo/database": "workspace:*",
+    "@repo/logger": "workspace:*",
     "@repo/services": "workspace:*",
     "@trpc/client": "^11.8.1",
     "@trpc/server": "^11.8.1",
+    "razorpay": "^2.9.6",
+    "react-email": "^6.4.0",
+    "resend": "^6.12.4",
     "trpc-to-openapi": "^3.1.0",
     "zod": "^4.3.5"
   }

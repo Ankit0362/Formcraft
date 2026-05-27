@@ -3,6 +3,7 @@
   "display": "Node JS",
   "extends": "./base.json",
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "moduleResolution": "Node",
     "module": "CommonJS"
   }
