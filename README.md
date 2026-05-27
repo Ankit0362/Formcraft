@@ -1,135 +1,87 @@
-# Turborepo starter
+# FormCraft - Modern Form Builder
 
-This Turborepo starter is maintained by the Turborepo core team.
+FormCraft is a complete, production-ready form builder SaaS built with a modern stack. It allows creators to build dynamic forms, configure conditional logic, and gather responses with real-time analytics. 
 
-## Using this example
+## Live Demo & Links
 
-Run the following command:
+- **Live Web App**: [https://formcraft-web-lwon.vercel.app](https://formcraft-web-lwon.vercel.app)
+- **API Documentation**: [https://formcraft-p7bk.onrender.com/docs](https://formcraft-p7bk.onrender.com/docs)
+- **API Base URL**: `https://formcraft-p7bk.onrender.com/api`
 
-```sh
-npx create-turbo@latest
-```
+## Demo Credentials
 
-## What's inside?
+The database is seeded with sample templates, forms, responses, and analytics. You can log in using these demo credentials (or create your own account):
 
-This Turborepo includes the following packages/apps:
+**Demo User:**
+- Email: `demo@formcraft.com`
+- Password: `password123`
 
-### Apps and Packages
+**Super Admin:**
+- Email: `superadmin@formcraft.com`
+- Password: `FormCraft@Admin123`
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## Features Implemented
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- **Authentication**: JWT session-based auth with Google OAuth integration.
+- **Creator Dashboard**: Manage workspaces, billing tiers, API keys, and overall form statistics.
+- **Form Builder**: Drag-and-drop style builder supporting multiple field types (Short Text, Long Text, Email, Number, Single Select, Multi-Select Checkboxes, Rating, Date).
+- **Conditional Logic**: Built-in support to show/hide fields based on previous answers.
+- **Theming Engine**: Dynamic themes with live preview.
+- **Visibility Modes**:
+  - `Public`: Forms appear in the public `/templates` gallery and explore pages.
+  - `Unlisted`: Accessible only via the direct link (not shown in explore pages).
+  - Password Protection: Optional password required to view the form.
+- **Response Analytics**: Real-time charts, completion rates, drop-off tracking, and response times.
+- **API Integrations & Webhooks**: Developers can sync form responses directly to external tools using webhooks and API keys.
+- **Monorepo Architecture**:
+  - `apps/web`: Next.js 15 Frontend
+  - `apps/api`: Express.js Backend with tRPC
+  - `packages/trpc`: tRPC routers and schemas
+  - `packages/database`: Drizzle ORM schema and seed scripts
+  - `packages/logger`: Shared logging utility
 
-### Utilities
+## Tech Stack
 
-This Turborepo has some additional tools already setup for you:
+- **Turborepo**: Monorepo management
+- **Next.js 15**: React frontend
+- **Express.js**: Node backend
+- **tRPC**: End-to-end typesafe APIs
+- **Zod**: Schema validation
+- **Drizzle ORM**: Postgres database interaction
+- **PostgreSQL**: Primary database (Neon)
+- **Scalar**: OpenAPI Documentation generation
+- **TailwindCSS & Framer Motion**: Brutalist, high-performance styling and animations
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## Local Setup Instructions
 
-### Build
+1. **Install Dependencies**
+   ```bash
+   npm install -g pnpm
+   pnpm install
+   ```
 
-To build all apps and packages, run the following command:
+2. **Environment Variables**
+   Create a `.env` file at the root of the project with the following:
+   ```env
+   DATABASE_URL="postgres://your_neon_db_url"
+   JWT_SECRET="your_secure_random_string"
+   SESSION_SECURE="false"
+   NEXT_PUBLIC_API_URL="http://localhost:8000/trpc"
+   NEXT_PUBLIC_APP_URL="http://localhost:3000"
+   BASE_URL="http://localhost:8000"
+   ALLOWED_ORIGINS="http://localhost:3000"
+   ENABLE_DEMO_LOGIN="true"
+   ```
 
-```
-cd my-turborepo
+3. **Database Setup**
+   ```bash
+   pnpm --filter @repo/database db:push
+   pnpm --filter @repo/database seed
+   ```
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+4. **Run Development Servers**
+   ```bash
+   pnpm dev
+   ```
+   - Frontend runs on `http://localhost:3000`
+   - Backend runs on `http://localhost:8000`
