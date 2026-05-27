@@ -124,3 +124,5 @@ export default function SubmissionSuccessPage() {
     </div>
   );
 }
+
+export const dynamic = 'force-dynamic';

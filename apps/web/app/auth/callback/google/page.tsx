@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Terminal, ShieldCheck, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "~/trpc/client";
 
-export default function GoogleCallbackPage() {
+function GoogleCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
@@ -71,7 +71,7 @@ export default function GoogleCallbackPage() {
       <motion.div initial="hidden" animate="visible" variants={brutalIn} className="relative z-10 brutal-card bg-white text-black p-12 max-w-lg w-full border-4 border-[var(--caution)] shadow-[12px_12px_0_0_var(--caution)]">
         <div className="flex flex-col items-center text-center space-y-6">
           <div className="bg-[var(--caution)] border-4 border-black p-4 inline-block">
-            {callbackMutation.isPending || !code || !error && !callbackMutation.isError && !callbackMutation.isSuccess ? (
+            {callbackMutation.isPending || (!code && !error) && !callbackMutation.isError && !callbackMutation.isSuccess ? (
               <Loader2 className="w-12 h-12 text-black animate-spin" />
             ) : callbackMutation.isSuccess ? (
               <ShieldCheck className="w-12 h-12 text-black" />
@@ -91,5 +91,17 @@ export default function GoogleCallbackPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function GoogleCallbackPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black text-white flex items-center justify-center font-mono">
+        <Loader2 className="w-12 h-12 animate-spin text-[var(--caution)]" />
+      </div>
+    }>
+      <GoogleCallbackContent />
+    </Suspense>
   );
 }

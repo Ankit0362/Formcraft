@@ -201,3 +201,5 @@ export default function InvitePage() {
     </Suspense>
   );
 }
+
+export const dynamic = 'force-dynamic';

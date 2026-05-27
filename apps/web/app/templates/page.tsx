@@ -380,3 +380,5 @@ export default function TemplatesGallery() {
     </div>
   );
 }
+
+export const dynamic = 'force-dynamic';

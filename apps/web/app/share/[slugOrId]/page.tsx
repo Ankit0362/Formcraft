@@ -1023,3 +1023,5 @@ export default function PublicFormFiller() {
     </>
   );
 }
+
+export const dynamic = 'force-dynamic';
