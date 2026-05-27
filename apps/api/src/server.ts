@@ -72,6 +72,7 @@ app.use(
     origin: (origin, cb) => {
       // Allow requests with no origin (like mobile/native apps or curl)
       if (!origin) return cb(null, true);
+      if (origin.endsWith('.vercel.app')) return cb(null, true);
       if (allowedOrigins.includes(origin)) return cb(null, true);
       return cb(new Error("CORS policy: origin not allowed"));
     },
