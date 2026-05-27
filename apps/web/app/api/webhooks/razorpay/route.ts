@@ -4,6 +4,8 @@ import { db } from "@repo/database";
 import { workspacesTable } from "@repo/database/models/workspace";
 import { eq } from "drizzle-orm";
 
+export const dynamic = "force-dynamic";
+
 // FIX #3: Only allow known tier values from webhook notes
 const VALID_TIERS = ["free", "pro", "business", "enterprise"] as const;
 type ValidTier = (typeof VALID_TIERS)[number];
