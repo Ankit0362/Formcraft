@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { z, zodUndefinedModel } from "../../schema";
 import { publicProcedure, protectedProcedure, router } from "../../trpc";
 import { generatePath } from "../../utils/path-generator";
@@ -323,6 +324,7 @@ export const authRouter = router({
           slug: z.string(),
           tier: z.string(),
           removeBranding: z.boolean(),
+          customDomain: z.string().nullable(),
         }).nullable(),
         workspaces: z.array(
           z.object({
@@ -331,6 +333,7 @@ export const authRouter = router({
             slug: z.string(),
             tier: z.string(),
             removeBranding: z.boolean(),
+            customDomain: z.string().nullable(),
           })
         ),
       })

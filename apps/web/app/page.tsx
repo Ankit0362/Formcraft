@@ -20,12 +20,13 @@ const stagger = {
 };
 
 // ─── Section wrapper with scroll-triggered animation ──────────────────────
-function Section({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Section({ children, className = "", id }: { children: React.ReactNode; className?: string; id?: string }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
     <motion.section
       ref={ref}
+      id={id}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={stagger}

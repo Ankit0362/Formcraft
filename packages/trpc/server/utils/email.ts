@@ -26,15 +26,7 @@ export async function sendEmail({
     console.log(`[SIMULATED EMAIL] To: ${to} | Subject: ${subject}`);
     console.log(html);
 
-    if (workspaceId) {
-      await db.insert(schema.emailsTable).values({
-        workspaceId,
-        toEmail: to,
-        subject,
-        body: html,
-        status: "sent",
-      });
-    }
+    // If we wanted to log system emails, we would need a different table.
     return { id: "simulated_email_id" };
   }
 
@@ -47,30 +39,11 @@ export async function sendEmail({
       text,
     });
 
-    if (workspaceId) {
-      await db.insert(schema.emailsTable).values({
-        workspaceId,
-        toEmail: to,
-        subject,
-        body: html,
-        status: "sent",
-      });
-    }
-
+    // If we wanted to log system emails, we would need a different table.
+    // emailsTable is for form response emails (requires formId).
     return data;
   } catch (error) {
     console.error("Failed to send email:", error);
-    
-    if (workspaceId) {
-      await db.insert(schema.emailsTable).values({
-        workspaceId,
-        toEmail: to,
-        subject,
-        body: html,
-        status: "failed",
-      });
-    }
-    
     throw error;
   }
 }

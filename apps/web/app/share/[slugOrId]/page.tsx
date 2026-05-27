@@ -89,7 +89,7 @@ export default function PublicFormFiller() {
           isPasswordProtected: false,
           isExpired: false,
           isLimitReached: false,
-          removeBranding: previewQuery.data.form.removeBranding ?? false,
+          removeBranding: false,
         },
         fields: previewQuery.data.fields,
       }

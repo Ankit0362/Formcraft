@@ -1057,7 +1057,6 @@ export const formsRouter = router({
           theme: z.string(),
           customThemeConfig: z.any().nullable(),
           layoutType: z.string(),
-          removeBranding: z.boolean(),
           status: z.string(),
         }),
         fields: z.array(
@@ -1107,7 +1106,6 @@ export const formsRouter = router({
           theme: form.theme,
           customThemeConfig: form.customThemeConfig,
           layoutType: form.layoutType,
-          removeBranding: form.removeBranding ?? false,
           status: form.status,
         },
         fields: fields.map((f) => ({

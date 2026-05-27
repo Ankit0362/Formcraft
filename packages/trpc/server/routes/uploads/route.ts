@@ -81,10 +81,9 @@ export const uploadsRouter = router({
       // objectKey format: uploads/forms/{formId}/{uuid}.{ext}
       const parts = input.objectKey.split('/');
       if (parts.length >= 3 && parts[0] === 'uploads' && parts[1] === 'forms') {
-        const formId = parts[2];
-        const form = await db.query.formsTable.findFirst({
-          where: eq(schema.formsTable.id, formId)
-        });
+        const formId = parts[2] as string;
+        const forms = await db.select().from(schema.formsTable).where(eq(schema.formsTable.id, formId)).limit(1);
+        const form = forms[0];
 
         if (!form || form.workspaceId !== ctx.activeWorkspace.id) {
           throw new TRPCError({

@@ -2,7 +2,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../../trpc";
 import { workspacesTable } from "@repo/database/models/workspace";
 import { workspaceMembersTable } from "@repo/database/models/workspace";
-import { eq, and } from "drizzle-orm";
+import { eq, and } from "@repo/database";
 import { TRPCError } from "@trpc/server";
 import Razorpay from "razorpay";
 import crypto from "crypto";
