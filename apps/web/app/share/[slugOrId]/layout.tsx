@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+export const dynamic = 'force-dynamic';
+
 // Server-side metadata for public form share pages
 // Fetches the form title/description directly from the API for OG tags
 export async function generateMetadata({

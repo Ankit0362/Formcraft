@@ -125,4 +125,4 @@ export default function SubmissionSuccessPage() {
   );
 }
 
-export const dynamic = 'force-dynamic';
+

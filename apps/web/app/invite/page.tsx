@@ -202,4 +202,4 @@ export default function InvitePage() {
   );
 }
 
-export const dynamic = 'force-dynamic';
+

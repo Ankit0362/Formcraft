@@ -381,4 +381,4 @@ export default function TemplatesGallery() {
   );
 }
 
-export const dynamic = 'force-dynamic';
+
