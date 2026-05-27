@@ -20,7 +20,7 @@ const setSessionCookie = (res: any, userId: string) => {
   const isSecure = process.env.SESSION_SECURE === "true" || process.env.NODE_ENV === "production";
   res.setHeader(
     "Set-Cookie",
-    `fc_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}${isSecure ? "; Secure" : ""}`
+    `fc_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=${60 * 60 * 24 * 7}`
   );
 };
 
@@ -28,7 +28,7 @@ const clearSessionCookie = (res: any) => {
   if (!res) return;
   res.setHeader(
     "Set-Cookie",
-    "fc_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0"
+    "fc_session=; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=0"
   );
 };
 
