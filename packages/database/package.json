@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "db:migrate": "dotenv -- drizzle-kit migrate",
+    "db:push": "dotenv -- drizzle-kit push",
     "db:generate": "dotenv -- drizzle-kit generate",
     "seed": "dotenv -- tsx seed.ts",
     "setup-admin": "dotenv -- tsx setup-admin.ts"
