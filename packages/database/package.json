@@ -6,6 +6,7 @@
     "db:push": "dotenv -- drizzle-kit push",
     "db:generate": "dotenv -- drizzle-kit generate",
     "seed": "dotenv -- tsx seed.ts",
+    "seed:120": "dotenv -- tsx seed_120.ts",
     "setup-admin": "dotenv -- tsx setup-admin.ts"
   },
   "devDependencies": {
