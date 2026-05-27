@@ -222,7 +222,7 @@ export function useFormBuilder(formId: string) {
     fields, selectedFieldId, setSelectedFieldId,
     draggedIndex, isLoading, isSaving, isDirty, data,
     // Actions
-    handleSaveAll, addField, removeField, moveField,
+    handleSaveAll, handlePublish, addField, removeField, moveField,
     handleDragStart, handleDragEnter, handleDragEnd,
     updateFieldDetails, handleAddOption, handleRemoveOption, handleUpdateOption,
     copyShareLink,
