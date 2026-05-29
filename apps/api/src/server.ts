@@ -15,6 +15,9 @@ import { env } from "./env";
 
 export const app = express();
 
+// Trust the first proxy (Render load balancer) so express-rate-limit gets the correct IP
+app.set("trust proxy", 1);
+
 // Security headers
 const allowedOrigins = env.ALLOWED_ORIGINS
   ? env.ALLOWED_ORIGINS.split(",")
