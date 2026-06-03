@@ -297,7 +297,7 @@ export default function AuthPage() {
             </button>
           </motion.div>
 
-          {/* Demo Login & Google Auth */}
+          {/* Google Auth */}
           <motion.div variants={brutalIn} className="mt-8 pt-6 border-t-4 border-black space-y-4">
             <button
               type="button"
@@ -314,19 +314,6 @@ export default function AuthPage() {
               <Chrome className="w-5 h-5 text-red-500" />
               CONTINUE WITH GOOGLE
             </button>
-
-            <button
-              type="button"
-              disabled={loading}
-              onClick={() => { setLoading(true); demoLoginMutation.mutate(); }}
-              className="w-full brutal-btn-primary flex items-center justify-center gap-2"
-            >
-              <Key className="w-5 h-5" />
-              DEMO LOGIN — NO PASSWORD NEEDED
-            </button>
-            <p className="text-center text-[10px] font-bold uppercase tracking-widest text-gray-500 mt-3">
-              Instantly explore the app — no sign up required
-            </p>
           </motion.div>
         </motion.div>
       </div>
