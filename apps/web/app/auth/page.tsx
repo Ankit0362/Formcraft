@@ -97,7 +97,7 @@ export default function AuthPage() {
         body: JSON.stringify({ sessionToken: data.sessionToken }),
       });
       toast.success(`Welcome, ${data.user.fullName}! Your account is ready.`);
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     },
     onError: (err) => {
       toast.error(err.message || "Sign up failed. Please try again.");
@@ -114,7 +114,7 @@ export default function AuthPage() {
         body: JSON.stringify({ sessionToken: data.sessionToken }),
       });
       toast.success(`Welcome back, ${data.user.fullName}!`);
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     },
     onError: () => {
       toast.error("Incorrect email or password. Please try again.");

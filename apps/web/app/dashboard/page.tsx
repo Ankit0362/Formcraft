@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogOut, FileText, Terminal, Mail, Clock, Layout, Activity, RefreshCw } from "lucide-react";
@@ -41,19 +41,19 @@ export default function DashboardPage() {
     },
   });
 
-  if (isMeLoading) return (
+  // If auth.me resolves to null (no session on Express API), redirect cleanly.
+  // Middleware handles blocking unauthenticated Next.js navigation,
+  // but auth.me failure means the Express session is gone — redirect to login.
+  useEffect(() => {
+    if (!isMeLoading && !meData?.user) {
+      window.location.href = "/auth";
+    }
+  }, [isMeLoading, meData]);
+
+  if (isMeLoading || !meData?.user) return (
     <div className="min-h-screen bg-background text-foreground flex items-center justify-center font-mono font-bold text-2xl uppercase">
       <RefreshCw className="h-8 w-8 animate-spin mr-4 text-[var(--caution)]" />
       Loading Dashboard...
-    </div>
-  );
-
-  if (!meData?.user) return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center font-mono">
-      <div className="bg-black text-[var(--caution)] border-4 border-[var(--caution)] p-8 text-center shadow-[8px_8px_0_0_#facc15]">
-        <h2 className="text-4xl font-black mb-4 uppercase">Unauthorized Access</h2>
-        <Link href="/auth" className="brutal-btn-primary text-sm mt-8 inline-flex">RETURN TO LOGIN</Link>
-      </div>
     </div>
   );
 

@@ -26,9 +26,9 @@ function GoogleCallbackContent() {
       });
       setStatus("AUTHENTICATION SUCCESSFUL. REDIRECTING...");
       toast.success("Successfully logged in with Google!");
-      utils.auth.me.invalidate().then(() => {
-        router.push("/dashboard");
-      });
+      // Use hard navigation so the browser fully commits the cookie
+      // before the dashboard page loads and queries auth.me
+      window.location.href = "/dashboard";
     },
     onError: (err) => {
       setStatus("AUTHENTICATION FAILED.");
