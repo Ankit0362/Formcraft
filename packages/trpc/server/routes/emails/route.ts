@@ -1,5 +1,5 @@
 import { z } from "../../schema";
-import { workspaceProcedure, router } from "../../trpc";
+import { workspaceProcedure, router, requireTier } from "../../trpc";
 import { generatePath } from "../../utils/path-generator";
 import { db, eq, and } from "@repo/database";
 import * as schema from "@repo/database/schema";
@@ -24,6 +24,7 @@ export const emailsRouter = router({
       )
     )
     .query(async ({ input, ctx }) => {
+      requireTier(ctx.activeWorkspace.tier, ["pro", "business", "enterprise"]);
       // Confirm ownership
       const forms = await db
         .select()
@@ -68,6 +69,7 @@ export const emailsRouter = router({
       )
     )
     .query(async ({ ctx }) => {
+      requireTier(ctx.activeWorkspace.tier, ["pro", "business", "enterprise"]);
       const emails = await db
         .select({
           id: schema.emailsTable.id,

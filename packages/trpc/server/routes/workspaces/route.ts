@@ -52,11 +52,11 @@ export const workspacesRouter = router({
       const updates: Record<string, any> = {};
       if (input.name !== undefined) updates.name = input.name;
       if (input.customDomain !== undefined) {
-        requireTier(ctx.activeWorkspace.tier, ["business", "enterprise"]);
+        requireTier(ctx.activeWorkspace.tier, ["pro", "business", "enterprise"]);
         updates.customDomain = input.customDomain;
       }
       if (input.removeBranding !== undefined) {
-        requireTier(ctx.activeWorkspace.tier, ["pro", "business", "enterprise"]);
+        requireTier(ctx.activeWorkspace.tier, ["business", "enterprise"]);
         updates.removeBranding = input.removeBranding;
       }
 

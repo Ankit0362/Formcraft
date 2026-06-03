@@ -1,5 +1,5 @@
 import { z } from "../../schema";
-import { workspaceProcedure, publicProcedure, apiKeyProcedure, router } from "../../trpc";
+import { workspaceProcedure, publicProcedure, apiKeyProcedure, router, requireTier } from "../../trpc";
 import { generatePath } from "../../utils/path-generator";
 import { db, eq, and, sql } from "@repo/database";
 import * as schema from "@repo/database/schema";
@@ -84,6 +84,18 @@ export const responsesRouter = router({
 
       const form = forms[0]!;
 
+      // Fetch Workspace for Monthly Limits Check
+      const workspaces = await db
+        .select()
+        .from(schema.workspacesTable)
+        .where(eq(schema.workspacesTable.id, form.workspaceId))
+        .limit(1);
+      
+      const workspace = workspaces[0];
+      if (!workspace) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Workspace not found" });
+      }
+
       if (form.status !== "published") {
         throw new TRPCError({
           code: "FORBIDDEN",
@@ -108,6 +120,38 @@ export const responsesRouter = router({
             message: "This form has reached its maximum number of responses.",
           });
         }
+      }
+
+      // Tier-Based Monthly Response Limit Enforcement
+      // Free: 1,000 | Pro: 10,000 | Enterprise: 50,000
+      const tierLimits: Record<string, number> = {
+        free: 1000,
+        pro: 10000,
+        business: 50000, // Legacy fallback
+        enterprise: 50000
+      };
+      const limitForTier = tierLimits[workspace.tier] || 1000;
+      
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
+      const monthlyResponsesResult = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(schema.formResponsesTable)
+        .innerJoin(schema.formsTable, eq(schema.formsTable.id, schema.formResponsesTable.formId))
+        .where(and(
+          eq(schema.formsTable.workspaceId, workspace.id),
+          eq(schema.formResponsesTable.completed, true),
+          sql`${schema.formResponsesTable.submittedAt} >= ${startOfMonth}`
+        ));
+
+      const monthlyResponsesCount = Number(monthlyResponsesResult[0]?.count) || 0;
+      if (monthlyResponsesCount >= limitForTier) {
+         throw new TRPCError({
+            code: "FORBIDDEN",
+            message: `This workspace has reached its monthly response limit of ${limitForTier} for the ${workspace.tier} plan.`,
+          });
       }
 
       // Check Expiry Date at submit time too
@@ -620,6 +664,7 @@ export const responsesRouter = router({
     .output(z.string())
     .query(async ({ input, ctx }) => {
       await requireRole(ctx.user.id, ctx.activeWorkspace.id, ["owner", "admin", "analyst"]);
+      requireTier(ctx.activeWorkspace.tier, ["pro", "business", "enterprise"]);
 
       const forms = await db
         .select()

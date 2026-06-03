@@ -677,6 +677,22 @@ export const formsRouter = router({
     .mutation(async ({ input, ctx }) => {
       await requireRole(ctx.user.id, ctx.activeWorkspace.id, ["owner", "admin", "editor"]);
 
+      // Enforce Pro Features
+      if (input.theme && input.theme !== "default" && input.theme !== "ecommerce_1") {
+        requireTier(ctx.activeWorkspace.tier, ["pro", "business", "enterprise"]);
+      }
+      if (input.layoutType && input.layoutType !== "conversational") {
+        requireTier(ctx.activeWorkspace.tier, ["pro", "business", "enterprise"]);
+      }
+
+      // Enforce Enterprise Features
+      if (input.password && input.password.trim() !== "") {
+        requireTier(ctx.activeWorkspace.tier, ["business", "enterprise"]);
+      }
+      if (input.expiryDate) {
+        requireTier(ctx.activeWorkspace.tier, ["business", "enterprise"]);
+      }
+
       // Validate Custom Slug unique constraint
       if (input.customSlug) {
         const slugMatch = await db
@@ -781,6 +797,14 @@ export const formsRouter = router({
           code: "NOT_FOUND",
           message: "Form not found",
         });
+      }
+
+      // Enforce Enterprise tier for conditional logic
+      const hasConditionalLogic = input.fields.some(f => 
+        f.conditionalLogic && Object.keys(f.conditionalLogic).length > 0
+      );
+      if (hasConditionalLogic) {
+        requireTier(ctx.activeWorkspace.tier, ["business", "enterprise"]);
       }
 
       await db.transaction(async (tx) => {
