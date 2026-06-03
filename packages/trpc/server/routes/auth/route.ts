@@ -28,7 +28,7 @@ const clearSessionCookie = (res: any) => {
   if (!res) return;
   res.setHeader(
     "Set-Cookie",
-    "fc_session=; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=0"
+    "fc_session=; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
   );
 };
 
@@ -298,7 +298,7 @@ export const authRouter = router({
       };
     }),
 
-  logout: protectedProcedure
+  logout: publicProcedure
     .meta({ openapi: { method: "POST", path: getPath("/logout"), tags: TAGS } })
     .input(zodUndefinedModel)
     .output(z.object({ success: z.boolean() }))
