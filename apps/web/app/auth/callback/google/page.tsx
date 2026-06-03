@@ -17,7 +17,13 @@ function GoogleCallbackContent() {
   const [status, setStatus] = useState("VERIFYING SECURE TOKEN...");
 
   const callbackMutation = trpc.auth.googleCallback.useMutation({
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      // Stamp the session cookie on the Next.js domain so middleware can read it
+      await fetch("/api/auth/set-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionToken: data.sessionToken }),
+      });
       setStatus("AUTHENTICATION SUCCESSFUL. REDIRECTING...");
       toast.success("Successfully logged in with Google!");
       utils.auth.me.invalidate().then(() => {

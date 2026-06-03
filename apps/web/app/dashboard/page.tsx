@@ -28,12 +28,15 @@ export default function DashboardPage() {
   const { data: meData, isLoading: isMeLoading } = trpc.auth.me.useQuery(undefined, { retry: false });
 
   const logoutMutation = trpc.auth.logout.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      // Clear the fc_session cookie on the Next.js domain
+      await fetch("/api/auth/signout", { method: "POST" });
       toast.success("Logged out successfully.");
-      utils.invalidate().then(() => { window.location.href = "/auth"; });
+      window.location.href = "/auth";
     },
-    onError: () => {
-      document.cookie = "fc_session=; Path=/; Max-Age=0";
+    onError: async () => {
+      // Even if the API call fails, clear the cookie on the Next.js domain
+      await fetch("/api/auth/signout", { method: "POST" });
       window.location.href = "/auth";
     },
   });

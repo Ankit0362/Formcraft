@@ -151,8 +151,8 @@ const TESTIMONIALS = [
 
 const PRICING = [
   { name: "FREE", price: "₹0", period: "", icon: Cpu, features: ["1,000 responses/mo", "Unlimited forms", "5 templates/category", "Basic analytics"], cta: "Start Free", href: "/auth", highlight: false },
-  { name: "PRO", price: "₹1,999", period: "/mo", icon: HardDrive, features: ["10,000 responses/mo", "All 120+ templates", "Advanced analytics", "CSV export", "Email notifications", "Webhooks"], cta: "Upgrade to Pro", href: "/pricing", highlight: true },
-  { name: "ENTERPRISE", price: "₹4,999", period: "/mo", icon: Server, features: ["50,000 responses/mo", "Remove branding", "API access", "Team collaboration", "Priority support"], cta: "Contact Sales", href: "/pricing", highlight: false },
+  { name: "PRO", price: "₹1,999", period: "/mo", icon: HardDrive, features: ["10,000 responses/mo", "All 120+ templates", "Advanced analytics", "CSV export", "Email notifications", "Webhooks"], cta: "Upgrade to Pro", href: "/auth", highlight: true },
+  { name: "ENTERPRISE", price: "₹4,999", period: "/mo", icon: Server, features: ["50,000 responses/mo", "Remove branding", "API access", "Team collaboration", "Priority support"], cta: "Contact Sales", href: "/auth", highlight: false },
 ];
 
 // ─── Main Component ────────────────────────────────────────────────────────
@@ -179,8 +179,8 @@ export default function LandingPage() {
           <nav className="hidden md:flex items-center gap-8 font-mono text-sm font-bold uppercase tracking-widest">
             <a href="#features" className="hover:text-[var(--caution)] transition-colors hover:underline decoration-4 underline-offset-4">Features</a>
             <a href="#how-it-works" className="hover:text-[var(--caution)] transition-colors hover:underline decoration-4 underline-offset-4">How It Works</a>
-            <Link href="/pricing" className="hover:text-[var(--caution)] transition-colors hover:underline decoration-4 underline-offset-4">Pricing</Link>
-            <Link href="/templates" className="hover:text-[var(--caution)] transition-colors hover:underline decoration-4 underline-offset-4">Templates</Link>
+            <Link href="/auth" className="hover:text-[var(--caution)] transition-colors hover:underline decoration-4 underline-offset-4">Pricing</Link>
+            <Link href="/auth" className="hover:text-[var(--caution)] transition-colors hover:underline decoration-4 underline-offset-4">Templates</Link>
           </nav>
           <div className="flex items-center gap-3">
             <Link href="/auth" className="hidden sm:block font-black uppercase text-xs tracking-widest px-4 py-2 border-2 border-black hover:bg-gray-100 transition-all">
@@ -222,7 +222,7 @@ export default function LandingPage() {
               <Link href="/auth" className="brutal-btn-primary text-lg">
                 Start Building Free <ArrowRight className="w-6 h-6" />
               </Link>
-              <Link href="/templates" className="font-mono text-sm font-bold flex items-center gap-2 uppercase border-4 border-black px-6 py-3 hover:bg-[var(--caution)] hover:shadow-[4px_4px_0_0_#000] transition-all bg-white">
+              <Link href="/auth" className="font-mono text-sm font-bold flex items-center gap-2 uppercase border-4 border-black px-6 py-3 hover:bg-[var(--caution)] hover:shadow-[4px_4px_0_0_#000] transition-all bg-white">
                 <Layers className="w-5 h-5" /> Browse 120+ Templates
               </Link>
             </motion.div>
@@ -437,7 +437,7 @@ export default function LandingPage() {
                 Don't Start<br />From Zero.
               </h2>
             </div>
-            <Link href="/templates" className="shrink-0 brutal-btn text-sm">
+            <Link href="/auth" className="shrink-0 brutal-btn text-sm">
               Browse All Templates <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
@@ -445,7 +445,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
             {TEMPLATES_PREVIEW.map((t, i) => (
               <motion.div key={i} variants={brutalIn}>
-                <Link href="/templates" className="block group">
+                <Link href="/auth" className="block group">
                   <div className="bg-white border-4 border-black shadow-[6px_6px_0_0_#000] hover:-translate-y-1 hover:shadow-[10px_10px_0_0_#000] transition-all overflow-hidden">
                     {/* Color bar */}
                     <div className="h-3 w-full" style={{ backgroundColor: t.color }} />
@@ -572,7 +572,7 @@ export default function LandingPage() {
           </div>
 
           <motion.div variants={brutalIn} className="mt-10 text-center">
-            <Link href="/pricing" className="font-mono text-sm font-bold uppercase underline decoration-4 underline-offset-4 hover:text-[var(--caution)] transition-colors">
+            <Link href="/auth" className="font-mono text-sm font-bold uppercase underline decoration-4 underline-offset-4 hover:text-[var(--caution)] transition-colors">
               See full plan comparison →
             </Link>
           </motion.div>
@@ -599,7 +599,7 @@ export default function LandingPage() {
             <Link href="/auth" className="brutal-btn-primary text-xl px-12 py-5">
               Start Building Free <ArrowRight className="w-7 h-7" />
             </Link>
-            <Link href="/templates" className="font-mono text-sm font-bold uppercase text-white border-4 border-white px-8 py-4 hover:bg-white hover:text-black transition-all">
+            <Link href="/auth" className="font-mono text-sm font-bold uppercase text-white border-4 border-white px-8 py-4 hover:bg-white hover:text-black transition-all">
               View Templates
             </Link>
           </motion.div>
@@ -626,7 +626,7 @@ export default function LandingPage() {
             </div>
             {/* Links */}
             {[
-              { title: "Product", links: [{ label: "Features", href: "#features" }, { label: "Templates", href: "/templates" }, { label: "Pricing", href: "/pricing" }, { label: "Dashboard", href: "/dashboard" }] },
+              { title: "Product", links: [{ label: "Features", href: "#features" }, { label: "Templates", href: "/auth" }, { label: "Pricing", href: "/auth" }, { label: "Dashboard", href: "/auth" }] },
               { title: "Company", links: [{ label: "About", href: "/" }, { label: "Blog", href: "/" }, { label: "Status", href: "/" }, { label: "Changelog", href: "/" }] },
               { title: "Legal", links: [{ label: "Privacy", href: "/" }, { label: "Terms", href: "/" }, { label: "Security", href: "/" }, { label: "Cookies", href: "/" }] },
             ].map((col) => (

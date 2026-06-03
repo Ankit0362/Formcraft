@@ -89,7 +89,13 @@ export default function AuthPage() {
   }, [isLogin]);
 
   const signupMutation = trpc.auth.signup.useMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      // Stamp the session cookie on the Next.js domain so middleware can read it
+      await fetch("/api/auth/set-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionToken: data.sessionToken }),
+      });
       toast.success(`Welcome, ${data.user.fullName}! Your account is ready.`);
       router.push("/dashboard");
     },
@@ -100,7 +106,13 @@ export default function AuthPage() {
   });
 
   const loginMutation = trpc.auth.login.useMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      // Stamp the session cookie on the Next.js domain so middleware can read it
+      await fetch("/api/auth/set-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionToken: data.sessionToken }),
+      });
       toast.success(`Welcome back, ${data.user.fullName}!`);
       router.push("/dashboard");
     },

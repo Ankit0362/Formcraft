@@ -14,14 +14,15 @@ const getPath = generatePath("/authentication");
 
 // hashPassword and verifyPassword are imported from ../../utils/password
 
-const setSessionCookie = (res: any, userId: string) => {
-  if (!res) return;
+const setSessionCookie = (res: any, userId: string): string => {
   const token = encryptSession(userId);
-  const isSecure = process.env.SESSION_SECURE === "true" || process.env.NODE_ENV === "production";
-  res.setHeader(
-    "Set-Cookie",
-    `fc_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=${60 * 60 * 24 * 7}`
-  );
+  if (res) {
+    res.setHeader(
+      "Set-Cookie",
+      `fc_session=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=${60 * 60 * 24 * 7}`
+    );
+  }
+  return token;
 };
 
 const clearSessionCookie = (res: any) => {
@@ -54,6 +55,7 @@ export const authRouter = router({
           name: z.string(),
           slug: z.string(),
         }),
+        sessionToken: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -119,8 +121,8 @@ export const authRouter = router({
         return { newUser, newWorkspace };
       });
 
-      // Write session cookie
-      setSessionCookie(ctx.res, newUser.id);
+      // Write session cookie and return token so Next.js frontend can set it too
+      const sessionToken = setSessionCookie(ctx.res, newUser.id);
 
       return {
         user: {
@@ -133,6 +135,7 @@ export const authRouter = router({
           name: newWorkspace.name,
           slug: newWorkspace.slug,
         },
+        sessionToken,
       };
     }),
 
@@ -156,6 +159,7 @@ export const authRouter = router({
           name: z.string(),
           slug: z.string(),
         }),
+        sessionToken: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -202,7 +206,7 @@ export const authRouter = router({
         });
       }
 
-      setSessionCookie(ctx.res, user.id);
+      const sessionToken = setSessionCookie(ctx.res, user.id);
 
       return {
         user: {
@@ -215,6 +219,7 @@ export const authRouter = router({
           name: memberships[0]!.workspace.name,
           slug: memberships[0]!.workspace.slug,
         },
+        sessionToken,
       };
     }),
 
@@ -472,7 +477,7 @@ export const authRouter = router({
   googleCallback: publicProcedure
     .meta({ openapi: { method: "POST", path: getPath("/google/callback"), tags: TAGS } })
     .input(z.object({ code: z.string(), redirectUri: z.string() }))
-    .output(z.object({ success: z.boolean() }))
+    .output(z.object({ success: z.boolean(), sessionToken: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const clientId = process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_OAUTH_CLIENT_ID;
       const clientSecret = process.env.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_OAUTH_CLIENT_SECRET;
@@ -577,8 +582,8 @@ export const authRouter = router({
       }
 
       // 4. Log them in
-      setSessionCookie(ctx.res, user.id);
+      const sessionToken = setSessionCookie(ctx.res, user.id);
 
-      return { success: true };
+      return { success: true, sessionToken };
     }),
 });
