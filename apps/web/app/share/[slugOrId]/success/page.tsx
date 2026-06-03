@@ -20,7 +20,7 @@ export default function SubmissionSuccessPage() {
   );
 
   const form = data?.form;
-  const t = getTheme(form?.theme);
+  const t = getTheme(form?.theme ?? "ecommerce_1");
 
   const confirmationMsg =
     "Your response has been recorded. Thank you for taking the time to fill out this form!";

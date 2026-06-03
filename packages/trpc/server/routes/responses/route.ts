@@ -143,7 +143,7 @@ export const responsesRouter = router({
         .where(and(
           eq(schema.formsTable.workspaceId, workspace.id),
           eq(schema.formResponsesTable.completed, true),
-          sql`${schema.formResponsesTable.submittedAt} >= ${startOfMonth}`
+          sql`${schema.formResponsesTable.createdAt} >= ${startOfMonth}`
         ));
 
       const monthlyResponsesCount = Number(monthlyResponsesResult[0]?.count) || 0;
