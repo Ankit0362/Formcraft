@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Terminal, ShieldCheck, Loader2 } from "lucide-react";
@@ -13,6 +13,7 @@ function GoogleCallbackContent() {
   const code = searchParams.get("code");
   const error = searchParams.get("error");
   const utils = trpc.useUtils();
+  const hasMutatedRef = useRef(false);
 
   const [status, setStatus] = useState("VERIFYING SECURE TOKEN...");
 
@@ -52,9 +53,12 @@ function GoogleCallbackContent() {
       return;
     }
 
-    const redirectUri = window.location.origin + "/auth/callback/google";
-    setStatus("EXCHANGING TOKENS...");
-    callbackMutation.mutate({ code, redirectUri });
+    if (!hasMutatedRef.current) {
+      hasMutatedRef.current = true;
+      const redirectUri = window.location.origin + "/auth/callback/google";
+      setStatus("EXCHANGING TOKENS...");
+      callbackMutation.mutate({ code, redirectUri });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code, error]);
 

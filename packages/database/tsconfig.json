@@ -1,3 +1,14 @@
 {
-  "extends": "../typescript-config/node.json"
+  "extends": "../typescript-config/base.json",
+  "include": [
+    ".",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "compilerOptions": {
+    "outDir": "dist"
+  }
 }
