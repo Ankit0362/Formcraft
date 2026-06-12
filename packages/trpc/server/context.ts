@@ -80,7 +80,11 @@ export async function createContext({
           if (ownerMemberships.length > 0) {
             const ownerId = ownerMemberships[0]!.userId;
             const owners = await db
-              .select()
+              .select({
+                id: schema.usersTable.id,
+                email: schema.usersTable.email,
+                fullName: schema.usersTable.fullName,
+              })
               .from(schema.usersTable)
               .where(eq(schema.usersTable.id, ownerId))
               .limit(1);
@@ -111,7 +115,11 @@ export async function createContext({
         if (userId) {
           // Query user details
           const users = await db
-            .select()
+            .select({
+              id: schema.usersTable.id,
+              email: schema.usersTable.email,
+              fullName: schema.usersTable.fullName,
+            })
             .from(schema.usersTable)
             .where(eq(schema.usersTable.id, userId))
             .limit(1);

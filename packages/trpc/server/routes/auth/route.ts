@@ -61,7 +61,7 @@ export const authRouter = router({
     .mutation(async ({ input, ctx }) => {
       // Check if user already exists
       const existingUsers = await db
-        .select()
+        .select({ id: schema.usersTable.id })
         .from(schema.usersTable)
         .where(eq(schema.usersTable.email, input.email.toLowerCase()))
         .limit(1);
@@ -164,7 +164,12 @@ export const authRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const users = await db
-        .select()
+        .select({
+          id: schema.usersTable.id,
+          email: schema.usersTable.email,
+          fullName: schema.usersTable.fullName,
+          passwordHash: schema.usersTable.passwordHash,
+        })
         .from(schema.usersTable)
         .where(eq(schema.usersTable.email, input.email.toLowerCase()))
         .limit(1);
@@ -253,7 +258,11 @@ export const authRouter = router({
 
       // Find the seeded demo user
       const users = await db
-        .select()
+        .select({
+          id: schema.usersTable.id,
+          email: schema.usersTable.email,
+          fullName: schema.usersTable.fullName,
+        })
         .from(schema.usersTable)
         .where(eq(schema.usersTable.email, "demo@formcraft.com"))
         .limit(1);
@@ -369,7 +378,11 @@ export const authRouter = router({
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ input }) => {
       const users = await db
-        .select()
+        .select({
+          id: schema.usersTable.id,
+          email: schema.usersTable.email,
+          fullName: schema.usersTable.fullName,
+        })
         .from(schema.usersTable)
         .where(eq(schema.usersTable.email, input.email.toLowerCase()))
         .limit(1);
@@ -522,7 +535,16 @@ export const authRouter = router({
       const profileImageUrl = userData.picture;
 
       // 3. Find or create user
-      let users = await db.select().from(schema.usersTable).where(eq(schema.usersTable.email, email)).limit(1);
+      let users = await db
+        .select({
+          id: schema.usersTable.id,
+          email: schema.usersTable.email,
+          fullName: schema.usersTable.fullName,
+          profileImageUrl: schema.usersTable.profileImageUrl,
+        })
+        .from(schema.usersTable)
+        .where(eq(schema.usersTable.email, email))
+        .limit(1);
       let user = users[0];
 
       if (!user) {

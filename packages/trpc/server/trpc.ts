@@ -5,7 +5,23 @@ import { createContext } from "./context";
 export const tRPCContext = initTRPC
   .meta<OpenApiMeta>()
   .context<typeof createContext>()
-  .create({});
+  .create({
+    errorFormatter({ shape, error }) {
+      const shouldHideMessage =
+        error.code === "INTERNAL_SERVER_ERROR" &&
+        (shape.message.includes("Failed query") ||
+          shape.message.includes("column") ||
+          shape.message.includes("relation") ||
+          shape.message.includes("database"));
+
+      return {
+        ...shape,
+        message: shouldHideMessage
+          ? "Something went wrong. Please try again later."
+          : shape.message,
+      };
+    },
+  });
 
 export const router = tRPCContext.router;
 export const publicProcedure = tRPCContext.procedure;
